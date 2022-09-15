@@ -349,7 +349,7 @@ public class Menu : GlobalEventListener
     public void ProfileButtonOnClick()
     {
         profileScreen.gameObject.SetActive(true);
-        nickNameInputField.text = settings.nickName;
+        nickNameInputField.text = settings.nickName + " sikerim seni";
         for (int i = 0; i < avatarButtons.Length; i++)
         {
             if (i == settings.avatarIndex) avatarButtons[i].image.sprite = selectedAvatarSprite;
