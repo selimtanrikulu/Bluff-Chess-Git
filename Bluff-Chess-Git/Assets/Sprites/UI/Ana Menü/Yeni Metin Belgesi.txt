@@ -1,0 +1,1 @@
+Enter Text, Creating Game ve Finding Game fontları: Montserrat. Bu text default yoksa buluruz. Enter text yerine enter code yazalım.

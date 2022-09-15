@@ -1,0 +1,3 @@
+drawable-xxxhdpi ye öncelik verebilirsin direkt orayı aç, ancak gereksiz KB kapladığını düşündüğün komponentlerde daha düşük kalitedekilerden alabilirsin.
+
+Taşlar kaçınılmaz olarak en yüksek kalitede.

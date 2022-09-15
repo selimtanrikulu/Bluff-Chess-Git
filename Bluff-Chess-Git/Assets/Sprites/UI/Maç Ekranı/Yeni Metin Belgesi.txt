@@ -1,0 +1,7 @@
+Açık kareler: #B2A7F2
+Koyu kareler: #5C4ABD
+Nickname, GAME ID, açıklama texti; Font: Futura Md BT
+game id deki code, süre; Font: Gotham
+
+boardshadow.png board'un tam arkasında duran shadowing.
+board_topshadow.png board'un 19 px üstünde duran bi şerit
