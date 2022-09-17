@@ -651,26 +651,27 @@ public class GameUI : MonoBehaviour
         worldObjectsToRotate.Add(background);
         worldObjectsToRotate.Add(boardBackground);
 
-        foreach(SpriteRenderer sr in blackGraveyardImages)
-        {
-            worldObjectsToRotate.Add(sr.gameObject);
-        }
-        foreach(SpriteRenderer sr in whiteGraveyardImages)
-        {
-            worldObjectsToRotate.Add(sr.gameObject);
-        }
-
-        worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
-
-
-
         
 
+        worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
         foreach(GameObject obj in worldObjectsToRotate)
         {
             obj.transform.position = new Vector3(-obj.transform.position.x,-obj.transform.position.y,obj.transform.position.z);
             obj.transform.Rotate(Vector3.forward,180);
         }
+
+        foreach(SpriteRenderer obj in blackGraveyardImages)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x,-obj.transform.position.y,obj.transform.position.z);
+            obj.transform.Rotate(Vector3.forward,180);
+        }
+        foreach(SpriteRenderer obj in whiteGraveyardImages)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x,-obj.transform.position.y,obj.transform.position.z);
+            obj.transform.Rotate(Vector3.forward,180);
+        }
+
+
 
     }
 
