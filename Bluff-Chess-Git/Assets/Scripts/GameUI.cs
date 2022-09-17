@@ -12,6 +12,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] public TextMeshPro gameInfoTMP;
     [SerializeField] TextMeshPro myTimeTMP;
     [SerializeField] TextMeshPro gameIDTMP;
+    [SerializeField] TextMeshPro gameIDTMPStatic;
 
     [SerializeField] TextMeshPro enemyTimeTMP;
     [SerializeField] float startGameDelay;
@@ -31,8 +32,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] Sprite scoreSprite;
     [SerializeField] Sprite scorelessSprite;
 
-    [SerializeField] Image[] whiteGraveyardImages;
-    [SerializeField] Image[] blackGraveyardImages;
+    [SerializeField] SpriteRenderer[] whiteGraveyardImages;
+    [SerializeField] SpriteRenderer[] blackGraveyardImages;
 
     int currentWhiteGraveyard = 0;
     int currentBlackGraveyard = 0;
@@ -62,7 +63,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] float graveyardAnimationSpeed;
 
     [SerializeField] float popupDuration;
-    [SerializeField] Image enemyDialogueImage;
+    [SerializeField] SpriteRenderer enemyDialogueImage;
     [SerializeField] Sprite claimBluffDialogueSprite;
     [SerializeField] Sprite passDialogueSprite;
     [SerializeField] Sprite claimKingDialogueSprite;
@@ -98,10 +99,12 @@ public class GameUI : MonoBehaviour
         if(settings.privateGame)
         {
             gameIDTMP.text =(BoltMatchmaking.CurrentSession.HostName).ToString();
+            
         }
         else
         {
             gameIDTMP.gameObject.SetActive(false);
+            gameIDTMPStatic.gameObject.SetActive(false);
         }
 
         
@@ -203,11 +206,11 @@ public class GameUI : MonoBehaviour
         {
             if(dataHandler.GetWhoseTurn() == 1)
             {
-                gameInfoTMP.text = "White player will move";
+                gameInfoTMP.text = "White player\nwill move";
             }   
             else
             {
-                gameInfoTMP.text = "Black player will move";
+                gameInfoTMP.text = "Black player\nwill move";
             }
         }
 
@@ -260,11 +263,11 @@ public class GameUI : MonoBehaviour
         {
             if(dataHandler.GetWhoseTurn() == 1)
             {
-                gameInfoTMP.text = "Bluff claim was true ! The black piece will die";
+                gameInfoTMP.text = "It was bluff !\nThe black piece will die";
             }
             else
             {
-                gameInfoTMP.text = "Bluff claim was true ! The white piece will die";
+                gameInfoTMP.text = "It was bluff !\nThe white piece will die";
             }
 
         }
@@ -475,17 +478,17 @@ public class GameUI : MonoBehaviour
 
 
 
-    IEnumerator CarryImageFromTo(Image image, Vector2 start,Vector2 finish)
+    IEnumerator CarryImageFromTo(SpriteRenderer image, Vector2 start,Vector2 finish)
     {   
         image.transform.position = start;
 
         Vector2 imagePos = image.transform.position;
 
-        while((imagePos - finish).magnitude>2)
+        while((imagePos - finish).magnitude>0.005f)
         {
-            if((imagePos-finish).magnitude < 50)
+            if((imagePos-finish).magnitude < 0.1f)
             {
-                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime * 0.05f;
+                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime * 0.005f;
                 image.transform.position = imagePos;
             }
             else
@@ -521,7 +524,7 @@ public class GameUI : MonoBehaviour
 
     public void AddImageToGraveyard(string unitType,int teamNo,Vector3 fromWorldSpace)
     {
-        Vector2 screenPos = Camera.main.WorldToScreenPoint(fromWorldSpace);
+        Vector3 screenPos = fromWorldSpace;
         
 
         if(teamNo == 1)
@@ -601,8 +604,10 @@ public class GameUI : MonoBehaviour
             currentBlackGraveyard ++;
         }
 
-
+        
     }
+
+
 
     IEnumerator EnemyDialoguePopUpCoroutine(Sprite sprite,float duration)
     {
