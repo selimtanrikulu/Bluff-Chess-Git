@@ -9,11 +9,11 @@ public class GameUI : MonoBehaviour
 {
 
 
-    [SerializeField] public TextMeshProUGUI gameInfoTMP;
-    [SerializeField] TextMeshProUGUI myTimeTMP;
-    [SerializeField] TextMeshProUGUI gameIDTMP;
+    [SerializeField] public TextMeshPro gameInfoTMP;
+    [SerializeField] TextMeshPro myTimeTMP;
+    [SerializeField] TextMeshPro gameIDTMP;
 
-    [SerializeField] TextMeshProUGUI enemyTimeTMP;
+    [SerializeField] TextMeshPro enemyTimeTMP;
     [SerializeField] float startGameDelay;
     [SerializeField] Button claimKingButton;
     [SerializeField] Button dontClaimKingButton;
@@ -23,10 +23,10 @@ public class GameUI : MonoBehaviour
     [SerializeField] Button readyButton;
     [SerializeField] Button leaveButton;
 
-    [SerializeField] Image myScore1;
-    [SerializeField] Image myScore2;
-    [SerializeField] Image enemyScore1;
-    [SerializeField] Image enemyScore2;
+    [SerializeField] SpriteRenderer myScore1;
+    [SerializeField] SpriteRenderer myScore2;
+    [SerializeField] SpriteRenderer enemyScore1;
+    [SerializeField] SpriteRenderer enemyScore2;
 
     [SerializeField] Sprite scoreSprite;
     [SerializeField] Sprite scorelessSprite;
@@ -55,8 +55,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] Sprite emptyWhiteSprite;
 
 
-    [SerializeField] TextMeshProUGUI myNickName;
-    [SerializeField] TextMeshProUGUI enemyNickName;
+    [SerializeField] TextMeshPro myNickName;
+    [SerializeField] TextMeshPro enemyNickName;
 
 
     [SerializeField] float graveyardAnimationSpeed;
@@ -86,9 +86,9 @@ public class GameUI : MonoBehaviour
     Settings settings;
 
     [SerializeField] Sprite[] avatarSprites;
-    [SerializeField] Image myAvatarImage;
-    [SerializeField] Image enemyAvatarImage;
-    [SerializeField] Image enemyAvatarBackground;
+    [SerializeField] SpriteRenderer myAvatarImage;
+    [SerializeField] SpriteRenderer enemyAvatarImage;
+    [SerializeField] SpriteRenderer enemyAvatarBackground;
 
     void Start()
     {
@@ -97,7 +97,7 @@ public class GameUI : MonoBehaviour
 
         if(settings.privateGame)
         {
-            gameIDTMP.text = "Game ID : " + (BoltMatchmaking.CurrentSession.HostName).ToString();
+            gameIDTMP.text =(BoltMatchmaking.CurrentSession.HostName).ToString();
         }
         else
         {
@@ -284,7 +284,7 @@ public class GameUI : MonoBehaviour
 
         else if(dataHandler.GetGameState() == 8)
         {
-            gameInfoTMP.text = "Round over.\n" + gameController.roundOverCause; //deðiþecek info gelecek
+            gameInfoTMP.text = "Round over.\n" + gameController.roundOverCause; //deï¿½iï¿½ecek info gelecek
         }
         
 
@@ -317,7 +317,7 @@ public class GameUI : MonoBehaviour
         if(myScore == 0)
         {
             myScore1.sprite = scorelessSprite;
-            myScore2.sprite = scorelessSprite;
+            myScore2.sprite= scorelessSprite;
         }
         else if(myScore == 1)
         {
@@ -328,7 +328,7 @@ public class GameUI : MonoBehaviour
         else if(myScore == 2)
         {
             myScore1.sprite = scoreSprite;
-            myScore2.sprite = scoreSprite;
+            myScore2.sprite= scoreSprite;
 
         }
         if(enemyScore == 0)

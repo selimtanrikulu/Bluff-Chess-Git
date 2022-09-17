@@ -50,6 +50,11 @@ public class Menu : GlobalEventListener
 
     //------
 
+    [SerializeField] Sprite bigTrackSprite;
+    
+    [SerializeField] Sprite smallTrackSprite;
+    [SerializeField] Image[] ruleBookTickImages;
+    [SerializeField] Image ruleBookShadowImage;
 
 
     //tips
@@ -213,7 +218,7 @@ public class Menu : GlobalEventListener
 
         string st = "ABCDEFGHIJKLMNPRSTUVWYZ123456789";
         //string st = "123456789";
-        for(int i=0;i<8;i++)
+        for(int i=0;i<6;i++)
         {
             char c = st[UnityEngine.Random.Range(0,st.Length)];
             result += c;
@@ -327,6 +332,7 @@ public class Menu : GlobalEventListener
     {
         ruleBookBackground.gameObject.SetActive(true);
         ruleBookButton.gameObject.SetActive(false);
+        ruleBookShadowImage.gameObject.SetActive(true);
 
         currentRuleBookIndex = 0;
         for(int i=0;i<ruleBookImages.Length;i++)
@@ -335,25 +341,51 @@ public class Menu : GlobalEventListener
             else ruleBookImages[i].gameObject.SetActive(true);
         }
 
-        ruleNumberTMP.text = (currentRuleBookIndex + 1).ToString() + " / " + ruleBookImages.Length.ToString();
+        ruleNumberTMP.text = "";
 
+
+        for(int i=0;i<ruleBookImages.Length;i++)
+        {
+            if(currentRuleBookIndex == i)
+            {
+                ruleBookTickImages[i].sprite = bigTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+            }
+            else
+            {
+                ruleBookTickImages[i].sprite = smallTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.2f,0.2f,0.2f);
+            }
+            
+        }
     }
 
     public void CloseRuleBookButtonOnClick()
     {
         ruleBookBackground.gameObject.SetActive(false);
         ruleBookButton.gameObject.SetActive(true);
+        ruleBookShadowImage.gameObject.SetActive(false);
     }
 
 
     public void ProfileButtonOnClick()
     {
         profileScreen.gameObject.SetActive(true);
-        nickNameInputField.text = settings.nickName + " sikerim seni";
+        nickNameInputField.text = settings.nickName;
+        selectedAvatarIndex = settings.avatarIndex;
+
         for (int i = 0; i < avatarButtons.Length; i++)
         {
-            if (i == settings.avatarIndex) avatarButtons[i].image.sprite = selectedAvatarSprite;
-            else avatarButtons[i].image.sprite = nonselectedAvatarSprite;
+            if (i == selectedAvatarIndex)
+            {
+                avatarButtons[i].image.sprite = selectedAvatarSprite;
+                avatarButtons[i].image.color = new Color(1,1,1,1);
+            } 
+            else
+            {
+                avatarButtons[i].image.color = new Color(1,1,1,0);
+                avatarButtons[i].image.sprite = nonselectedAvatarSprite;
+            } 
         }
 
         referenceAvatarImage.sprite = avatarSprites[selectedAvatarIndex];
@@ -380,8 +412,16 @@ public class Menu : GlobalEventListener
         referenceAvatarImage.sprite = avatarSprites[selectedAvatarIndex];
         for (int i = 0; i < avatarButtons.Length; i++)
         {
-            if (i == selectedAvatarIndex) avatarButtons[i].image.sprite = selectedAvatarSprite;
-            else avatarButtons[i].image.sprite = nonselectedAvatarSprite;
+            if (i == selectedAvatarIndex)
+            {
+                avatarButtons[i].image.sprite = selectedAvatarSprite;
+                avatarButtons[i].image.color = new Color(1,1,1,1);
+            } 
+            else
+            {
+                avatarButtons[i].image.color = new Color(1,1,1,0);
+                avatarButtons[i].image.sprite = nonselectedAvatarSprite;
+            } 
         }
     }
 
@@ -403,7 +443,24 @@ public class Menu : GlobalEventListener
             else ruleBookImages[i].gameObject.SetActive(true);
         }
 
-        ruleNumberTMP.text = (currentRuleBookIndex + 1).ToString() + " / " + ruleBookImages.Length.ToString();
+        ruleNumberTMP.text = "";
+
+
+        for(int i=0;i<ruleBookImages.Length;i++)
+        {
+            if(currentRuleBookIndex == i)
+            {
+                ruleBookTickImages[i].sprite = bigTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+            }
+            else
+            {
+                ruleBookTickImages[i].sprite = smallTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.2f,0.2f,0.2f);
+            }
+            
+        }
+
 
     }
 
@@ -418,8 +475,22 @@ public class Menu : GlobalEventListener
             else ruleBookImages[i].gameObject.SetActive(true);
         }
 
-        ruleNumberTMP.text = (currentRuleBookIndex + 1).ToString() + " / " + ruleBookImages.Length.ToString();
+        ruleNumberTMP.text = "";
 
+        for(int i=0;i<ruleBookImages.Length;i++)
+        {
+            if(currentRuleBookIndex == i)
+            {
+                ruleBookTickImages[i].sprite = bigTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.3f,0.3f,0.3f);
+            }
+            else
+            {
+                ruleBookTickImages[i].sprite = smallTrackSprite;
+                ruleBookTickImages[i].transform.localScale = new Vector3(0.2f,0.2f,0.2f);
+            }
+            
+        }
     }
     
 }

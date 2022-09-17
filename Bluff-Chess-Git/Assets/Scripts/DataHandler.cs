@@ -55,7 +55,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
             if(state.blackNickName != "Bot" && state.blackAvatarIndex < 5)
             {
                 state.blackNickName = "Bot";
-                int botAvatarIndex = Random.Range(9, 14);
+                int botAvatarIndex = Random.Range(6, 12);
                 state.blackAvatarIndex = botAvatarIndex;
 
             }
