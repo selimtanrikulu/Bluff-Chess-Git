@@ -40,6 +40,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
         {
             FindObjectOfType<Camera>().transform.Rotate(Vector3.forward,180);
             RotateUnits();
+            FindObjectOfType<GameUI>().RotateWorld();
         }
 
         
@@ -101,6 +102,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
 
     }
+
 
     public string GetUnitTypeInCachedBlock()
     {

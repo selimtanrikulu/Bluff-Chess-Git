@@ -16,13 +16,13 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] TextMeshPro enemyTimeTMP;
     [SerializeField] float startGameDelay;
-    [SerializeField] Button claimKingButton;
-    [SerializeField] Button dontClaimKingButton;
-    [SerializeField] Button claimBluffButton;
-    [SerializeField] Button passButton;
-    [SerializeField] Button randomizeButton;
-    [SerializeField] Button readyButton;
-    [SerializeField] Button leaveButton;
+    [SerializeField] MyButton claimKingButton;
+    [SerializeField] MyButton dontClaimKingButton;
+    [SerializeField] MyButton claimBluffButton;
+    [SerializeField] MyButton passButton;
+    [SerializeField] MyButton randomizeButton;
+    [SerializeField] MyButton readyButton;
+    [SerializeField] MyButton leaveButton;
 
     [SerializeField] SpriteRenderer myScore1;
     [SerializeField] SpriteRenderer myScore2;
@@ -64,9 +64,8 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] float popupDuration;
     [SerializeField] SpriteRenderer enemyDialogueImage;
-    [SerializeField] Sprite claimBluffDialogueSprite;
-    [SerializeField] Sprite passDialogueSprite;
-    [SerializeField] Sprite claimKingDialogueSprite;
+    [SerializeField] TextMeshPro enemyDialogueTMP;
+    [SerializeField] float enemyDialogueTransparencyChange;
 
 
     IEnumerator graveyardAnimationCoroutine;
@@ -88,8 +87,20 @@ public class GameUI : MonoBehaviour
 
     [SerializeField] Sprite[] avatarSprites;
     [SerializeField] SpriteRenderer myAvatarImage;
+    [SerializeField] SpriteRenderer myAvatarBackground;
     [SerializeField] SpriteRenderer enemyAvatarImage;
     [SerializeField] SpriteRenderer enemyAvatarBackground;
+
+
+    //just to rotate
+    [SerializeField] GameObject clockImage1;
+    [SerializeField] GameObject clockImage2;
+    [SerializeField] GameObject boardShadow;
+    [SerializeField] GameObject topShadow;
+    [SerializeField] GameObject background;
+    [SerializeField] GameObject boardBackground;
+
+    //------
 
     void Start()
     {
@@ -370,6 +381,7 @@ public class GameUI : MonoBehaviour
             gameInfoTMP.text = "";
             gameController.StartSetupPhase();
             gameIDTMP.gameObject.SetActive(false);
+            gameIDTMPStatic.gameObject.SetActive(false);
         }
 
 
@@ -402,11 +414,12 @@ public class GameUI : MonoBehaviour
         }
         else
         {
-            getDisabledCoroutine = GetDisable(dontClaimKingButton,0.2f);
-            StartCoroutine(getDisabledCoroutine);
-
-            getDisabledCoroutine = GetDisable(claimKingButton,0.2f);
-            StartCoroutine(getDisabledCoroutine);
+           // getDisabledCoroutine = GetDisable(dontClaimKingButton,0.2f);
+            //StartCoroutine(getDisabledCoroutine);
+            claimKingButton.gameObject.SetActive(false);
+            dontClaimKingButton.gameObject.SetActive(false);
+           // getDisabledCoroutine = GetDisable(claimKingButton,0.2f);
+            //StartCoroutine(getDisabledCoroutine);
         }
     }
 
@@ -607,19 +620,83 @@ public class GameUI : MonoBehaviour
         
     }
 
-
-
-    IEnumerator EnemyDialoguePopUpCoroutine(Sprite sprite,float duration)
+    public void RotateWorld()
     {
-        enemyDialogueImage.sprite = sprite;
-        enemyDialogueImage.color = new Color(1, 1, 1, 1);
+        List<GameObject> worldObjectsToRotate = new List<GameObject>();
+        worldObjectsToRotate.Add(gameInfoTMP.gameObject);
+        worldObjectsToRotate.Add(enemyScore1.gameObject);
+        worldObjectsToRotate.Add(enemyScore2.gameObject);
+        worldObjectsToRotate.Add(myScore1.gameObject);
+        worldObjectsToRotate.Add(myScore2.gameObject);
+        worldObjectsToRotate.Add(leaveButton.gameObject);
+        worldObjectsToRotate.Add(claimBluffButton.gameObject);
+        worldObjectsToRotate.Add(dontClaimKingButton.gameObject);
+        worldObjectsToRotate.Add(randomizeButton.gameObject);
+        worldObjectsToRotate.Add(passButton.gameObject);
+        worldObjectsToRotate.Add(readyButton.gameObject);
+        worldObjectsToRotate.Add(claimKingButton.gameObject);
+
+        worldObjectsToRotate.Add(myAvatarBackground.gameObject);
+        worldObjectsToRotate.Add(enemyAvatarBackground.gameObject);
+        worldObjectsToRotate.Add(gameIDTMP.gameObject);
+        worldObjectsToRotate.Add(myNickName.gameObject);
+        worldObjectsToRotate.Add(enemyNickName.gameObject);
+        worldObjectsToRotate.Add(gameIDTMPStatic.gameObject);
+        worldObjectsToRotate.Add(myTimeTMP.gameObject);
+        worldObjectsToRotate.Add(enemyTimeTMP.gameObject);
+        worldObjectsToRotate.Add(clockImage1);
+        worldObjectsToRotate.Add(clockImage2);
+        worldObjectsToRotate.Add(boardShadow);
+        worldObjectsToRotate.Add(topShadow);
+        worldObjectsToRotate.Add(background);
+        worldObjectsToRotate.Add(boardBackground);
+
+        foreach(SpriteRenderer sr in blackGraveyardImages)
+        {
+            worldObjectsToRotate.Add(sr.gameObject);
+        }
+        foreach(SpriteRenderer sr in whiteGraveyardImages)
+        {
+            worldObjectsToRotate.Add(sr.gameObject);
+        }
+
+        worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
+
+
+
         
 
-        yield return new WaitForSeconds(duration);
+        foreach(GameObject obj in worldObjectsToRotate)
+        {
+            obj.transform.position = new Vector3(-obj.transform.position.x,-obj.transform.position.y,obj.transform.position.z);
+            obj.transform.Rotate(Vector3.forward,180);
+        }
 
-        enemyDialogueImage.sprite = null;
-        enemyDialogueImage.color = new Color(1, 1, 1, 0);
-        
+    }
+
+    IEnumerator EnemyDialoguePopUpCoroutine(string text,float duration)
+    {
+
+        enemyDialogueTMP.text = text;    
+
+        while(enemyDialogueImage.color.a < 1)
+        {
+            enemyDialogueImage.color += new Color(0,0,0,Time.deltaTime * enemyDialogueTransparencyChange);
+            enemyDialogueTMP.color += new Color(0,0,0,Time.deltaTime * enemyDialogueTransparencyChange) ;
+            yield return new WaitForSeconds(Time.deltaTime);
+
+        }
+
+        yield return new WaitForSeconds(duration - ((1/enemyDialogueTransparencyChange) * 2));
+
+        while(enemyDialogueImage.color.a > 0)
+        {
+            enemyDialogueImage.color -= new Color(0,0,0,Time.deltaTime * enemyDialogueTransparencyChange);
+            enemyDialogueTMP.color -= new Color(0,0,0,Time.deltaTime * enemyDialogueTransparencyChange) ;
+            yield return new WaitForSeconds(Time.deltaTime);
+
+        }
+
     }
 
 
@@ -629,17 +706,17 @@ public class GameUI : MonoBehaviour
 
         if(dialogue == "Claim Bluff")
         {
-            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine(claimBluffDialogueSprite, popupDuration);
+            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine("It's Bluff !", popupDuration);
             StartCoroutine(enemyPopupCoroutine);
         }
         else if(dialogue == "Pass")
         {
-            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine(passDialogueSprite, popupDuration);
+            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine("Pass", popupDuration);
             StartCoroutine(enemyPopupCoroutine);
         }
         else if(dialogue == "Claim King")
         {
-            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine(claimKingDialogueSprite, popupDuration);
+            enemyPopupCoroutine = EnemyDialoguePopUpCoroutine("I Claim King !", popupDuration);
             StartCoroutine(enemyPopupCoroutine);
         }
 
