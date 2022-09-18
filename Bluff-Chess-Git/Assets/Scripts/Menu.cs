@@ -20,6 +20,7 @@ public class Menu : GlobalEventListener
     [SerializeField] Button joinButton;
     [SerializeField] Button creditsButton;
     [SerializeField] Button backButton;
+    [SerializeField] Button discordButton;
     [SerializeField] Image ruleBookBackground;
     [SerializeField] GameObject[] ruleBookImages;
     int currentRuleBookIndex = 0;
@@ -55,7 +56,6 @@ public class Menu : GlobalEventListener
     
     [SerializeField] Sprite smallTrackSprite;
     [SerializeField] Image[] ruleBookTickImages;
-    [SerializeField] Image ruleBookShadowImage;
 
 
     //tips
@@ -82,7 +82,7 @@ public class Menu : GlobalEventListener
 
     void Update()
     {
-        HandleTips();
+        //HandleTips();
     }
 
 
@@ -173,7 +173,7 @@ public class Menu : GlobalEventListener
         cancelButton.gameObject.SetActive(true);
         createPrivateGameButton.gameObject.SetActive(false);
         joinPrivateGameButton.gameObject.SetActive(false);
-        creditsButton.gameObject.SetActive(false);
+
         menuInfoText.text = "Finding game ...";
 
         settings.privateGame = false;
@@ -191,7 +191,7 @@ public class Menu : GlobalEventListener
         cancelButton.gameObject.SetActive(true);
         createPrivateGameButton.gameObject.SetActive(false);
         joinPrivateGameButton.gameObject.SetActive(false);
-        creditsButton.gameObject.SetActive(false);
+
 
         menuInfoText.text = "Creating Game...";
 
@@ -210,7 +210,7 @@ public class Menu : GlobalEventListener
         inputField.gameObject.SetActive(true);
         joinButton.gameObject.SetActive(true);
         inputFieldBackground.gameObject.SetActive(true);
-        creditsButton.gameObject.SetActive(false);
+
     }
 
     string CreateRandomID()
@@ -303,6 +303,7 @@ public class Menu : GlobalEventListener
         inputField.gameObject.SetActive(false);
         joinButton.gameObject.SetActive(false);
         inputFieldBackground.gameObject.SetActive(false);
+        discordButton.gameObject.SetActive(true);
         menuInfoText.text = "";
         inputField.text = "";
 
@@ -333,7 +334,6 @@ public class Menu : GlobalEventListener
     {
         ruleBookBackground.gameObject.SetActive(true);
         ruleBookButton.gameObject.SetActive(false);
-        ruleBookShadowImage.gameObject.SetActive(true);
 
         currentRuleBookIndex = 0;
         for(int i=0;i<ruleBookImages.Length;i++)
@@ -365,7 +365,7 @@ public class Menu : GlobalEventListener
     {
         ruleBookBackground.gameObject.SetActive(false);
         ruleBookButton.gameObject.SetActive(true);
-        ruleBookShadowImage.gameObject.SetActive(false);
+        creditsScreen.gameObject.SetActive(false);
     }
 
 
@@ -432,7 +432,6 @@ public class Menu : GlobalEventListener
     public void CreditsButtonOnClick()
     {
         creditsScreen.gameObject.SetActive(true);
-        backButton.gameObject.SetActive(true);
     }
 
 

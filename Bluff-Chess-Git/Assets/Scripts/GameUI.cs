@@ -102,6 +102,10 @@ public class GameUI : MonoBehaviour
 
     //------
 
+    [SerializeField] GameObject myTurnCircle;
+    [SerializeField] GameObject enemyTurnCircle;
+
+
     void Start()
     {
         gameController = FindObjectOfType<GameController>();
@@ -149,6 +153,7 @@ public class GameUI : MonoBehaviour
         HandleLeaveButton();
         HandleNickNames();
         HandleAvatars();
+        HandleTurnCircles();
 
     }
 
@@ -306,6 +311,23 @@ public class GameUI : MonoBehaviour
 
     }
 
+    void HandleTurnCircles()
+    {
+        if(dataHandler.GetWhoseTurn() == myPlayer.playerNo)
+        {
+            myTurnCircle.SetActive(true);
+            enemyTurnCircle.SetActive(false);
+        }
+        else
+        {
+            myTurnCircle.SetActive(false);
+            enemyTurnCircle.SetActive(true);
+
+        }
+
+
+
+    }
 
     void HandleScores()
     {
@@ -362,6 +384,25 @@ public class GameUI : MonoBehaviour
         }
 
 
+        //enabling enemy score
+            if(FindObjectsOfType<DataHandler>().Length > 1)
+            {
+                enemyScore1.gameObject.SetActive(true);
+                enemyScore2.gameObject.SetActive(true);
+            }
+            else
+            {
+                enemyScore1.gameObject.SetActive(false);
+                enemyScore2.gameObject.SetActive(false);
+            }
+
+
+
+
+
+
+        //----------
+
 
     }
 
@@ -382,6 +423,7 @@ public class GameUI : MonoBehaviour
             gameController.StartSetupPhase();
             gameIDTMP.gameObject.SetActive(false);
             gameIDTMPStatic.gameObject.SetActive(false);
+
         }
 
 
@@ -499,9 +541,9 @@ public class GameUI : MonoBehaviour
 
         while((imagePos - finish).magnitude>0.005f)
         {
-            if((imagePos-finish).magnitude < 0.1f)
+            if((imagePos-finish).magnitude < 0.3f)
             {
-                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime * 0.005f;
+                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime * 0.01f;
                 image.transform.position = imagePos;
             }
             else
@@ -651,7 +693,8 @@ public class GameUI : MonoBehaviour
         worldObjectsToRotate.Add(background);
         worldObjectsToRotate.Add(boardBackground);
 
-        
+        worldObjectsToRotate.Add(myTurnCircle);
+        worldObjectsToRotate.Add(enemyTurnCircle);
 
         worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
         foreach(GameObject obj in worldObjectsToRotate)
