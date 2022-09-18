@@ -19,6 +19,7 @@ public class Menu : GlobalEventListener
     [SerializeField] Button joinPrivateGameButton;
     [SerializeField] Button joinButton;
     [SerializeField] Button creditsButton;
+    [SerializeField] Button backButton;
     [SerializeField] Image ruleBookBackground;
     [SerializeField] GameObject[] ruleBookImages;
     int currentRuleBookIndex = 0;
@@ -371,6 +372,7 @@ public class Menu : GlobalEventListener
     public void ProfileButtonOnClick()
     {
         profileScreen.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
         nickNameInputField.text = settings.nickName;
         selectedAvatarIndex = settings.avatarIndex;
 
@@ -403,6 +405,7 @@ public class Menu : GlobalEventListener
     {
         profileScreen.gameObject.SetActive(false);
         creditsScreen.gameObject.SetActive(false);
+        backButton.gameObject.SetActive(false);
         UpdateProfile();
     }
 
@@ -429,6 +432,7 @@ public class Menu : GlobalEventListener
     public void CreditsButtonOnClick()
     {
         creditsScreen.gameObject.SetActive(true);
+        backButton.gameObject.SetActive(true);
     }
 
 

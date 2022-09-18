@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: e14af9ac56b67cb47bf85ee3763fb88d
+guid: 56212b536fed3ee4cb498d49c64da446
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 6625117579224070804
-    second: avatar6_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -48,8 +45,8 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
-  spriteBorder: {x: 32, y: 64, z: 63, w: 31}
+  spritePixelsToUnits: 45
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -112,33 +109,8 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: avatar6_0
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 464
-        height: 464
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 49ab8d0465521fb50800000000000000
-      internalID: 6625117579224070804
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    outline:
-    - - {x: -248, y: -248}
-      - {x: 248, y: -248}
-      - {x: 248, y: 248}
-      - {x: -248, y: 248}
+    sprites: []
+    outline: []
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
