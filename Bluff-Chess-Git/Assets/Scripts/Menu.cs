@@ -20,7 +20,7 @@ public class Menu : GlobalEventListener
     [SerializeField] Button joinButton;
     [SerializeField] Button creditsButton;
     [SerializeField] Image ruleBookBackground;
-    [SerializeField] Image[] ruleBookImages;
+    [SerializeField] GameObject[] ruleBookImages;
     int currentRuleBookIndex = 0;
     [SerializeField] TextMeshProUGUI menuInfoText;
     [SerializeField] Image inputFieldBackground;

@@ -17,6 +17,9 @@ public class CameraConfigure : MonoBehaviour
             return;
         #endif
 
+
+        
+
         magicalProduct = magicalSize * magicalWidthHeightRatio;
 
         cam = FindObjectOfType<Camera>();
@@ -25,6 +28,8 @@ public class CameraConfigure : MonoBehaviour
         float height = Screen.currentResolution.height;
 
         float widthHeightRatio = width/height;
+
+        if(widthHeightRatio > magicalWidthHeightRatio) return;
 
         float supposedSize = magicalProduct / widthHeightRatio;
 
