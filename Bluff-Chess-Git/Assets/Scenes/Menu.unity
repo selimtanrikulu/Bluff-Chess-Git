@@ -2706,7 +2706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2576ffac6df3836408208d8a0000d37c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxYGap: 150
+  maxYGap: 230
 --- !u!1 &567272030
 GameObject:
   m_ObjectHideFlags: 0
@@ -4331,6 +4331,7 @@ GameObject:
   - component: {fileID: 944366427}
   - component: {fileID: 944366429}
   - component: {fileID: 944366428}
+  - component: {fileID: 944366430}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -4394,6 +4395,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 944366426}
   m_CullTransparentMesh: 0
+--- !u!114 &944366430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 944366426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2576ffac6df3836408208d8a0000d37c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxYGap: 100
 --- !u!1 &964677607
 GameObject:
   m_ObjectHideFlags: 0
@@ -10854,6 +10868,7 @@ GameObject:
   - component: {fileID: 2093207553}
   - component: {fileID: 2093207552}
   - component: {fileID: 2093207551}
+  - component: {fileID: 2093207554}
   m_Layer: 5
   m_Name: 'ProfileButton '
   m_TagString: Untagged
@@ -10973,6 +10988,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093207549}
   m_CullTransparentMesh: 0
+--- !u!114 &2093207554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093207549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2576ffac6df3836408208d8a0000d37c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxYGap: 100
 --- !u!1 &2096030159
 GameObject:
   m_ObjectHideFlags: 0
