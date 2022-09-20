@@ -81,6 +81,17 @@ public class GameUI : MonoBehaviour
 
     IEnumerator getDisabledCoroutine;
 
+    IEnumerator activateBoardInfoTMPcoroutine;
+
+    IEnumerator inActivateBoardInfoTMPCoroutine;
+    [SerializeField] TextMeshPro boardInfoTMP;
+    [SerializeField] GameObject boardInfoShadow;
+    [SerializeField] float boardInfoActivationTime;
+
+    IEnumerator carryGainingScoreCoroutine;
+    [SerializeField] GameObject gainingScore;
+    Vector3 gainingScoreStartPos;
+
     AudioController audioController;
 
     Settings settings;
@@ -125,7 +136,7 @@ public class GameUI : MonoBehaviour
         
         audioController = FindObjectOfType<AudioController>();
         
-
+        gainingScoreStartPos = gainingScore.transform.position;
         
     }
 
@@ -156,6 +167,86 @@ public class GameUI : MonoBehaviour
         HandleTurnCircles();
 
     }
+
+    public void ActivateBoardInfo(string text,float duration)
+    {
+        activateBoardInfoTMPcoroutine = ActivateBoardInfoC(text,duration);
+        StartCoroutine(activateBoardInfoTMPcoroutine);
+    }
+
+    public void InActivateBoardInfo()
+    {
+        inActivateBoardInfoTMPCoroutine = InActivateBoardInfoC();
+        StartCoroutine(inActivateBoardInfoTMPCoroutine);
+    }
+
+    public void CarryGainingScore()
+    {
+        carryGainingScoreCoroutine = CarryGainingScoreC();
+        StartCoroutine(carryGainingScoreCoroutine);
+    }
+
+    IEnumerator ActivateBoardInfoC(string text,float duration)
+    {   
+        boardInfoTMP.text = text;
+
+
+        while(boardInfoTMP.color.a < 1)
+        {
+            Color color = boardInfoTMP.color;
+            color.a += Time.deltaTime * (1/boardInfoActivationTime);
+
+            boardInfoTMP.color = color;
+            boardInfoShadow.GetComponent<SpriteRenderer>().color = color;
+            duration -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        if(duration < 0)
+        {
+
+        }
+        else
+        {
+            while(duration > boardInfoActivationTime)
+            {
+                duration -= Time.deltaTime;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+
+
+            while(duration > 0)
+            {
+                Color color = boardInfoTMP.color;
+                color.a -= Time.deltaTime * (1/boardInfoActivationTime);
+
+                boardInfoTMP.color = color;
+                boardInfoShadow.GetComponent<SpriteRenderer>().color = color;
+                duration -= Time.deltaTime;
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+        }
+    }
+
+    IEnumerator InActivateBoardInfoC()
+    {   
+        while(boardInfoTMP.color.a > 0)
+        {
+            Color color = boardInfoTMP.color;
+            color.a -= Time.deltaTime * (1/boardInfoActivationTime);
+
+            boardInfoTMP.color = color;
+            boardInfoShadow.GetComponent<SpriteRenderer>().color = color;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }        
+    }
+
+
+    IEnumerator CarryGainingScoreC()
+    {   
+        yield return new WaitForSeconds(2);
+    }
+
 
     void HandleNickNames()
     {
@@ -423,6 +514,8 @@ public class GameUI : MonoBehaviour
             gameController.StartSetupPhase();
             gameIDTMP.gameObject.SetActive(false);
             gameIDTMPStatic.gameObject.SetActive(false);
+
+            ActivateBoardInfo("SETUP PHASE",-1);
 
         }
 
@@ -695,6 +788,10 @@ public class GameUI : MonoBehaviour
 
         worldObjectsToRotate.Add(myTurnCircle);
         worldObjectsToRotate.Add(enemyTurnCircle);
+
+        worldObjectsToRotate.Add(boardInfoTMP.gameObject);
+        worldObjectsToRotate.Add(boardInfoShadow);
+        worldObjectsToRotate.Add(gainingScore);
 
         worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
         foreach(GameObject obj in worldObjectsToRotate)

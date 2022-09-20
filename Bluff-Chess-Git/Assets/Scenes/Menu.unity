@@ -2536,7 +2536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 9.999771, y: 665}
+  m_AnchoredPosition: {x: 9.999771, y: 660}
   m_SizeDelta: {x: 657.536, y: 226.71277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &475219351
@@ -5086,8 +5086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   privateGame: 0
-  nickName: batuhanozcan
-  avatarIndex: 0
+  nickName: tommy3169
+  avatarIndex: 6
 --- !u!1 &1030347098
 GameObject:
   m_ObjectHideFlags: 0

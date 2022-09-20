@@ -581,6 +581,7 @@ public class Player : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
         if (hit.collider != null)
         {
+            Debug.Log(hit.collider.gameObject);
             return hit.collider.GetComponent<Block>();
         }
         return null;

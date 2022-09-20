@@ -5,9 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/Trailer.unity
+    guid: 980d3cf79d58e284aa93ca94f32e627d
   - enabled: 1
     path: Assets/Scenes/StartScene.unity
     guid: 8fbc35691034d3448a612df05cbae4ae
+  - enabled: 1
+    path: Assets/Scenes/TrailerLevel.unity
+    guid: cae98c36421ad4d45a25be7a57939312
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: bd1bb54d7615e844197eda7326799382

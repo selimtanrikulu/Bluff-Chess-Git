@@ -506,6 +506,9 @@ public class DataHandler : EntityBehaviour<IDataHandler>
                 i++;
             }
 
+            if (state.gameState == 7 && other.state.gameState == 1)FindObjectOfType<GameUI>().InActivateBoardInfo();
+
+
             //to replicate dialogue
             if (state.gameState == 2 && other.state.gameState == 1) FindObjectOfType<GameUI>().TriggerEnemyDialoguePopUp("Pass");
 
@@ -644,6 +647,8 @@ public class DataHandler : EntityBehaviour<IDataHandler>
         else if (gameState == 4) audioController.PlaySound("gameOverSound");
         else if (gameState == 8) audioController.PlaySound("roundOverSound");
 
+
+        if(state.gameState == 7 && gameState == 1) FindObjectOfType<GameUI>().InActivateBoardInfo();
 
 
 

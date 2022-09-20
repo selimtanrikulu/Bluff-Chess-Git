@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectMover : MonoBehaviour
+public class SimpleMover : MonoBehaviour
 {
     [SerializeField] float startMovementSpeed;
+    [SerializeField] float maxMovementSpeed;
     [SerializeField] float acceleration;
 
     [SerializeField] Vector3 direction;
@@ -19,8 +20,9 @@ public class ObjectMover : MonoBehaviour
 
         if(startTime <= timePast)
         {
+            
             currentMovementSpeed += acceleration * Time.deltaTime;
-
+            if(currentMovementSpeed > maxMovementSpeed)currentMovementSpeed = maxMovementSpeed;
 
             Vector3 pos = transform.position;
             pos += direction * currentMovementSpeed * Time.deltaTime;

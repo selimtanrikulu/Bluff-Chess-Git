@@ -398,6 +398,7 @@ public class Menu : GlobalEventListener
     {
         settings.nickName = nickNameInputField.text;
         settings.avatarIndex = selectedAvatarIndex;
+        BackButtonOnClick();
     }
 
 

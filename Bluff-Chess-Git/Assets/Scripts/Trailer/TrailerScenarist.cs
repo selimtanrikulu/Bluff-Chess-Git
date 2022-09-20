@@ -42,10 +42,12 @@ public class TrailerScenarist : MonoBehaviour
         {
             sceneObjects.Add(new SceneObject(trailerGameObjects[i],startTimes[i],endTimes[i]));
         }
+
     }
 
     void Update()
     {
+
         timePast += Time.deltaTime;
         CheckSceneObjects();
     }

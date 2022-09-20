@@ -256,6 +256,7 @@ public class GameController : GlobalEventListener
         dataHandler.SetGameState(8);
         roundNo ++;
 
+
         //Unhide units
         foreach(Unit unit in allUnits)
         {
@@ -266,9 +267,13 @@ public class GameController : GlobalEventListener
             }
         }
 
+        FindObjectOfType<GameUI>().ActivateBoardInfo("ROUND OVER",roundOverDelay/2);
+
 
         yield return new WaitForSeconds(roundOverDelay);
 
+        
+        FindObjectOfType<GameUI>().ActivateBoardInfo("SETUP PHASE",-1);
 
         if(whitePlayerScore > 1)
         {
@@ -296,6 +301,7 @@ public class GameController : GlobalEventListener
         dataHandler.SetGameState(4);
         dataHandler.IncrementActionNumber();
 
+        FindObjectOfType<GameUI>().ActivateBoardInfo("GAME OVER",gameOverDelay);
 
         yield return new WaitForSeconds(gameOverDelay);
 
