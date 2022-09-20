@@ -13,6 +13,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
     GameController gameController;
     AudioController audioController;
+    GameUI gameUI;
 
     //0 -> pre start
     //1 -> move
@@ -40,7 +41,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
         {
             FindObjectOfType<Camera>().transform.Rotate(Vector3.forward,180);
             RotateUnits();
-            FindObjectOfType<GameUI>().RotateWorld();
+            //FindObjectOfType<GameUI>().RotateWorld();
         }
 
         
@@ -304,6 +305,18 @@ public class DataHandler : EntityBehaviour<IDataHandler>
             }
 
         }
+
+
+        if(!gameUI)
+        {
+            gameUI = FindObjectOfType<GameUI>();
+            if(gameUI)
+            {
+                if(BoltNetwork.IsClient)gameUI.RotateWorld();
+                
+            }
+        }
+
         
 
 
@@ -424,6 +437,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
             if (BoltNetwork.IsClient)
             {
                 FindObjectOfType<GameUI>().myPlayer = player2;
+                
             }
         }
 
