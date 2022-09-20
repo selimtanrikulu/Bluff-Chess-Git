@@ -92,6 +92,8 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject gainingScore;
     Vector3 gainingScoreStartPos;
 
+    IEnumerator activateGainingScoreCoroutine;
+
     AudioController audioController;
 
     Settings settings;
@@ -110,6 +112,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject topShadow;
     [SerializeField] GameObject background;
     [SerializeField] GameObject boardBackground;
+    [SerializeField] GameObject gameLogBackground;
 
     //------
 
@@ -158,7 +161,7 @@ public class GameUI : MonoBehaviour
         HandleClaimDontClaimKingButtons();
         HandleClaimBluffPassButtons();
         HandleReadyRandomizeButtons();
-        HandleScores();
+        //HandleScores();
         HandleTimeTexts();
         HandlegameInfoTMP();
         HandleLeaveButton();
@@ -180,9 +183,9 @@ public class GameUI : MonoBehaviour
         StartCoroutine(inActivateBoardInfoTMPCoroutine);
     }
 
-    public void CarryGainingScore()
+    public void CarryGainingScore(int playerNo,int scoreNo)
     {
-        carryGainingScoreCoroutine = CarryGainingScoreC();
+        carryGainingScoreCoroutine = CarryGainingScoreC(playerNo,scoreNo);
         StartCoroutine(carryGainingScoreCoroutine);
     }
 
@@ -241,10 +244,67 @@ public class GameUI : MonoBehaviour
         }        
     }
 
-
-    IEnumerator CarryGainingScoreC()
+    IEnumerator ActivateGainingScore()
     {   
-        yield return new WaitForSeconds(2);
+        gainingScore.SetActive(true);
+        gainingScore.GetComponent<SpriteRenderer>().color = new Color(1,1,1,0);
+
+        Color color = gainingScore.GetComponent<SpriteRenderer>().color;
+
+
+        while(color.a < 1)
+        {
+            color.a += Time.deltaTime * 4;
+            gainingScore.GetComponent<SpriteRenderer>().color = color;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }        
+    }
+
+    IEnumerator CarryGainingScoreC(int playerNo,int scoreNo)
+    {   
+        yield return new WaitForSeconds(0.5f);
+        activateGainingScoreCoroutine = ActivateGainingScore();
+        StartCoroutine(activateGainingScoreCoroutine);
+        yield return new WaitForSeconds(0.5f);
+
+
+        Vector3 targetLoc;
+
+        if(playerNo == myPlayer.playerNo)
+        {
+            if(scoreNo == 1)
+            {
+                targetLoc = myScore1.transform.position;
+            }
+            else
+            {
+                targetLoc = myScore2.transform.position;
+            }
+        }
+        else
+        {
+            if(scoreNo == 1)
+            {
+                targetLoc = enemyScore1.transform.position;
+            }
+            else
+            {
+                targetLoc = enemyScore2.transform.position;
+            }
+        }
+
+
+
+
+        graveyardAnimationCoroutine = CarryImageFromTo(gainingScore.GetComponent<SpriteRenderer>(),gainingScore.transform.position,targetLoc,0.3f);
+        StartCoroutine(graveyardAnimationCoroutine);
+        yield return new WaitForSeconds(1.5f);
+        gainingScore.GetComponentInChildren<Blink>().onlyDown = true;
+        yield return new WaitForSeconds(2f);
+        HandleScores();
+        gainingScore.GetComponentInChildren<Blink>().Reset();
+        gainingScore.SetActive(false);
+        gainingScore.transform.position = gainingScoreStartPos;
     }
 
 
@@ -532,8 +592,6 @@ public class GameUI : MonoBehaviour
 
     void HandleClaimDontClaimKingButtons()
     {
-
-
         if(dataHandler.GetGameState() == 1 && dataHandler.GetWhoseTurn() == myPlayer.playerNo && myPlayer.selectedBlock)
         {
             if(myPlayer.claimKing)
@@ -549,12 +607,8 @@ public class GameUI : MonoBehaviour
         }
         else
         {
-           // getDisabledCoroutine = GetDisable(dontClaimKingButton,0.2f);
-            //StartCoroutine(getDisabledCoroutine);
             claimKingButton.gameObject.SetActive(false);
             dontClaimKingButton.gameObject.SetActive(false);
-           // getDisabledCoroutine = GetDisable(claimKingButton,0.2f);
-            //StartCoroutine(getDisabledCoroutine);
         }
     }
 
@@ -626,7 +680,7 @@ public class GameUI : MonoBehaviour
 
 
 
-    IEnumerator CarryImageFromTo(SpriteRenderer image, Vector2 start,Vector2 finish)
+    IEnumerator CarryImageFromTo(SpriteRenderer image, Vector2 start,Vector2 finish,float speedConfigure)
     {   
         image.transform.position = start;
 
@@ -641,7 +695,7 @@ public class GameUI : MonoBehaviour
             }
             else
             {
-                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime;
+                imagePos += (finish - imagePos).normalized * graveyardAnimationSpeed * Time.deltaTime * speedConfigure;
                 image.transform.position = imagePos;
             }
 
@@ -707,7 +761,7 @@ public class GameUI : MonoBehaviour
             }
 
             whiteGraveyardImages[currentWhiteGraveyard].color = new Color(1,1,1,1);
-            graveyardAnimationCoroutine = CarryImageFromTo(whiteGraveyardImages[currentWhiteGraveyard],screenPos,whiteGraveyardImages[currentWhiteGraveyard].transform.position);
+            graveyardAnimationCoroutine = CarryImageFromTo(whiteGraveyardImages[currentWhiteGraveyard],screenPos,whiteGraveyardImages[currentWhiteGraveyard].transform.position,1);
             StartCoroutine(graveyardAnimationCoroutine);
 
             currentWhiteGraveyard ++;
@@ -746,7 +800,7 @@ public class GameUI : MonoBehaviour
             blackGraveyardImages[currentBlackGraveyard].color = new Color(1,1,1,1);
 
             blackGraveyardImages[currentBlackGraveyard].color = new Color(1,1,1,1);
-            graveyardAnimationCoroutine = CarryImageFromTo(blackGraveyardImages[currentBlackGraveyard],screenPos,blackGraveyardImages[currentBlackGraveyard].transform.position);
+            graveyardAnimationCoroutine = CarryImageFromTo(blackGraveyardImages[currentBlackGraveyard],screenPos,blackGraveyardImages[currentBlackGraveyard].transform.position,1);
             StartCoroutine(graveyardAnimationCoroutine);
 
             currentBlackGraveyard ++;
@@ -758,7 +812,7 @@ public class GameUI : MonoBehaviour
     public void RotateWorld()
     {
         List<GameObject> worldObjectsToRotate = new List<GameObject>();
-        worldObjectsToRotate.Add(gameInfoTMP.gameObject);
+        //worldObjectsToRotate.Add(gameInfoTMP.gameObject);
         worldObjectsToRotate.Add(enemyScore1.gameObject);
         worldObjectsToRotate.Add(enemyScore2.gameObject);
         worldObjectsToRotate.Add(myScore1.gameObject);
@@ -792,6 +846,9 @@ public class GameUI : MonoBehaviour
         worldObjectsToRotate.Add(boardInfoTMP.gameObject);
         worldObjectsToRotate.Add(boardInfoShadow);
         worldObjectsToRotate.Add(gainingScore);
+        
+
+        worldObjectsToRotate.Add(gameLogBackground);
 
         worldObjectsToRotate.Add(enemyDialogueImage.gameObject);
         foreach(GameObject obj in worldObjectsToRotate)
@@ -811,6 +868,14 @@ public class GameUI : MonoBehaviour
             obj.transform.Rotate(Vector3.forward,180);
         }
 
+
+
+        //change gaining score start pos
+        gainingScoreStartPos.x *= -1;
+        gainingScoreStartPos.y *= -1;
+
+
+        //--
 
 
     }

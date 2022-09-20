@@ -230,6 +230,7 @@ public class GameController : GlobalEventListener
                     else if (blackTimeOut) roundOverCause = "Black timed out.";
                     else if (dataHandler.state.kingRevealed && dataHandler.GetWhoseTurn() == 2) roundOverCause = "White king revealed";
                     whitePlayerScore++;
+                    FindObjectOfType<GameUI>().CarryGainingScore(1,whitePlayerScore);
                 }
                 else
                 {
@@ -239,6 +240,7 @@ public class GameController : GlobalEventListener
                     else if (dataHandler.state.kingRevealed && dataHandler.GetWhoseTurn() == 1) roundOverCause = "Black king revealed";
 
                     blackPlayerScore++;
+                    FindObjectOfType<GameUI>().CarryGainingScore(2,blackPlayerScore);
                 }
 
                 roundOverCoroutine = RoundOver(3.0f);
@@ -268,6 +270,8 @@ public class GameController : GlobalEventListener
         }
 
         FindObjectOfType<GameUI>().ActivateBoardInfo("ROUND OVER",roundOverDelay/2);
+
+        
 
 
         yield return new WaitForSeconds(roundOverDelay);
