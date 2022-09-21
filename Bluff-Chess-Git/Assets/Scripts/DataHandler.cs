@@ -527,10 +527,6 @@ public class DataHandler : EntityBehaviour<IDataHandler>
             if (state.gameState == 2 && other.state.gameState == 1) FindObjectOfType<GameUI>().TriggerEnemyDialoguePopUp("Pass");
 
 
-
-
-
-
             //--------
 
 
@@ -663,7 +659,6 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
 
         if(state.gameState == 7 && gameState == 1) FindObjectOfType<GameUI>().InActivateBoardInfo();
-
 
 
         state.gameState = gameState;

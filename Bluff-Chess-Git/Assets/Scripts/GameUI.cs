@@ -120,6 +120,10 @@ public class GameUI : MonoBehaviour
     [SerializeField] GameObject enemyTurnCircle;
 
 
+    [SerializeField] GameInfoBlink gameInfoBlink;
+    [SerializeField] GameObject babySitter;
+
+
     void Start()
     {
         gameController = FindObjectOfType<GameController>();
@@ -362,6 +366,7 @@ public class GameUI : MonoBehaviour
     
     void HandlegameInfoTMP()
     {
+        string currentGameInfo = gameInfoTMP.text;
         
         if(dataHandler.GetGameState()==0)
         {
@@ -454,11 +459,14 @@ public class GameUI : MonoBehaviour
 
         else if(dataHandler.GetGameState() == 8)
         {
-            gameInfoTMP.text = "Round over.\n" + gameController.roundOverCause; //de�i�ecek info gelecek
+            gameInfoTMP.text = "Round over.\n" + gameController.roundOverCause;
         }
         
 
-
+        if(currentGameInfo != gameInfoTMP.text)
+        {
+            gameInfoBlink.BlinkOneTime();
+        }
 
     }
 
@@ -473,11 +481,7 @@ public class GameUI : MonoBehaviour
         {
             myTurnCircle.SetActive(false);
             enemyTurnCircle.SetActive(true);
-
         }
-
-
-
     }
 
     void HandleScores()
@@ -846,6 +850,7 @@ public class GameUI : MonoBehaviour
         worldObjectsToRotate.Add(boardInfoTMP.gameObject);
         worldObjectsToRotate.Add(boardInfoShadow);
         worldObjectsToRotate.Add(gainingScore);
+        worldObjectsToRotate.Add(babySitter);
         
 
         worldObjectsToRotate.Add(gameLogBackground);

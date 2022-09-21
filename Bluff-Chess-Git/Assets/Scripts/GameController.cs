@@ -42,6 +42,8 @@ public class GameController : GlobalEventListener
 
     public string roundOverCause;
 
+    public int roundWinner = -1;
+
     AudioController audioController;
     void Start()
     {
@@ -231,6 +233,7 @@ public class GameController : GlobalEventListener
                     else if (dataHandler.state.kingRevealed && dataHandler.GetWhoseTurn() == 2) roundOverCause = "White king revealed";
                     whitePlayerScore++;
                     FindObjectOfType<GameUI>().CarryGainingScore(1,whitePlayerScore);
+                    roundWinner = 1;
                 }
                 else
                 {
@@ -241,6 +244,7 @@ public class GameController : GlobalEventListener
 
                     blackPlayerScore++;
                     FindObjectOfType<GameUI>().CarryGainingScore(2,blackPlayerScore);
+                    roundWinner = 2;
                 }
 
                 roundOverCoroutine = RoundOver(3.0f);
@@ -267,6 +271,12 @@ public class GameController : GlobalEventListener
                 if(unit.unitType != "Pawn")
                 unit.UnHideForSeconds(roundOverDelay);
             }
+        }
+
+        //get default color block
+        foreach(Block block in allBlocks)
+        {
+            block.GetDefaultColor();
         }
 
         FindObjectOfType<GameUI>().ActivateBoardInfo("ROUND OVER",roundOverDelay/2);
@@ -480,6 +490,9 @@ public class GameController : GlobalEventListener
 
     public void UnitSacrificed(int unitIndex)
     {
+        if(dataHandler.GetGameState() == 8) return;
+
+
         MakeBlockOfUnitsDefault(dataHandler.GetWhoseTurn());
         dataHandler.MakeUnitDied(unitIndex,true);
         dataHandler.SetGameState(1);

@@ -68,11 +68,12 @@ public class Menu : GlobalEventListener
     IEnumerator openTipCoroutine;
     [SerializeField] float tipTransparencyChange;
 
-
-
-
     //--------
 
+
+    [SerializeField] Button openCloseAudioButton; 
+    [SerializeField] Sprite audioOpenSprite;
+    [SerializeField] Sprite audioClosedSprite;
 
     void Start()
     {
@@ -85,6 +86,8 @@ public class Menu : GlobalEventListener
         //HandleTips();
     }
 
+
+    
 
     private IEnumerator CloseTip(Image image)
     {
@@ -159,13 +162,8 @@ public class Menu : GlobalEventListener
         nickNameTMP.text = settings.nickName;
         avatarImage.sprite = avatarSprites[settings.avatarIndex];
     }
-   
-    void CreateServer()
-    {
 
-        BoltLauncher.StartServer();
 
-    }
 
     public void FindGameButtonOnClick()
     {
@@ -179,9 +177,10 @@ public class Menu : GlobalEventListener
         settings.privateGame = false;
         privateGame = false;
 
-        BoltLauncher.StartClient();
+       
 
-        
+
+        BoltLauncher.StartClient();
 
     }
 
@@ -199,7 +198,7 @@ public class Menu : GlobalEventListener
         settings.privateGame = true;
         BoltLauncher.StartServer();
 
-
+        
     }
     public void JoinPrivateGameButtonOnClick()
     {
@@ -228,8 +227,10 @@ public class Menu : GlobalEventListener
         return result;
     }
 
+
     public override void BoltStartDone()
     {
+
         if(BoltNetwork.IsServer)
         {
             if(privateGame)
@@ -259,7 +260,6 @@ public class Menu : GlobalEventListener
             if(privateGame)
             {
                 BoltMatchmaking.JoinSession(inputField.text);
-                
             }
             else
             {
@@ -392,11 +392,24 @@ public class Menu : GlobalEventListener
 
         referenceAvatarImage.sprite = avatarSprites[selectedAvatarIndex];
 
+
+        if(settings.audioOpen)
+        {
+            openCloseAudioButton.image.sprite = audioOpenSprite;
+        }
+        else
+        {
+            openCloseAudioButton.image.sprite = audioClosedSprite;
+        }
+
     }
 
     public void SaveButtonOnClick()
     {
         settings.nickName = nickNameInputField.text;
+        if(nickNameInputField.text.Length < 1)settings.nickName = "No Name";
+
+
         settings.avatarIndex = selectedAvatarIndex;
         BackButtonOnClick();
     }
@@ -408,6 +421,7 @@ public class Menu : GlobalEventListener
         creditsScreen.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
         UpdateProfile();
+        settings.SaveSettings();
     }
 
     public void AvatarButtonOnClick(int index)
@@ -433,6 +447,22 @@ public class Menu : GlobalEventListener
     public void CreditsButtonOnClick()
     {
         creditsScreen.gameObject.SetActive(true);
+    }
+
+
+    public void OpenCloseAudioButtonOnClick()
+    {
+        settings.audioOpen = !settings.audioOpen;
+
+        if(settings.audioOpen)
+        {
+            openCloseAudioButton.image.sprite = audioOpenSprite;
+        }
+        else
+        {
+            openCloseAudioButton.image.sprite = audioClosedSprite;
+        }
+
     }
 
 

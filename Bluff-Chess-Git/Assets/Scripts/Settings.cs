@@ -8,8 +8,8 @@ public class Settings : MonoBehaviour
     public string nickName;
     public int avatarIndex;
 
+    public bool audioOpen = true;
 
-     
 
     void Awake()
     {
@@ -23,15 +23,39 @@ public class Settings : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        LoadSettings();   
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
+
+    public void SaveSettings()
+    {
+        PlayerPrefs.SetInt("avatarIndex",avatarIndex);
+        PlayerPrefs.SetString("nickName",nickName);
+        PlayerPrefs.SetInt("audioOpen",audioOpen?1:0);
+    }
+
+    void LoadSettings()
+    {
+        audioOpen = (PlayerPrefs.GetInt("audioOpen")==1)?true:false;
+        nickName = PlayerPrefs.GetString("nickName");
+        avatarIndex = PlayerPrefs.GetInt("avatarIndex");
+
+
+        //first time opened game
+        if(nickName.Length < 1)
+        {
+            nickName = "Player";
+            avatarIndex = 0;
+            audioOpen = true;
+        }
+
+    }
+
+
 }

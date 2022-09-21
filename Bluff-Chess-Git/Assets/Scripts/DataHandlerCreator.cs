@@ -10,6 +10,8 @@ public class DataHandlerCreator : GlobalEventListener
 {
     float createBotTime = 10;
 
+    bool gameLockedAfterStart = false;
+
     Settings settings;
     void Start()
     {
@@ -19,21 +21,29 @@ public class DataHandlerCreator : GlobalEventListener
 
     void Update()
     {
+        if(FindObjectsOfType<DataHandler>().Length > 1)
+        {
+            if(BoltNetwork.IsServer)
+            {
+                if(!gameLockedAfterStart)
+                {
+                    PhotonRoomProperties token = new PhotonRoomProperties();
+                    token.IsOpen = true; // set if the room will be open to be joined
+                    token.IsVisible = false; // set if the room will be visible
+
+                    BoltMatchmaking.UpdateSession(token);
+
+                    gameLockedAfterStart=true;
+                }
+            }
+            
+        }
         if (FindObjectsOfType<DataHandler>().Length > 1 || settings.privateGame) return;
-
-        
-
         if(createBotTime < 0)
         {
             GameObject dataHandler = BoltNetwork.Instantiate(BoltPrefabs.DataHandler, new Vector2(0, 0), transform.rotation);
             DataHandler myDataHandler = dataHandler.GetComponent<DataHandler>();
             myDataHandler.isBot = true;
-
-            PhotonRoomProperties token = new PhotonRoomProperties();
-            token.IsOpen = true; // set if the room will be open to be joined
-            token.IsVisible = false; // set if the room will be visible
-
-            BoltMatchmaking.UpdateSession(token);
 
             Player[] players = FindObjectsOfType<Player>();
             foreach(Player player in players)

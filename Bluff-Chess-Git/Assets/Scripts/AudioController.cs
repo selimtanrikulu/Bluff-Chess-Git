@@ -26,9 +26,13 @@ public class AudioController : MonoBehaviour
 
     AudioSource audioSource;
 
+
+    Settings settings;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        settings = FindObjectOfType<Settings>();
     }
 
     // Update is called once per frame
@@ -41,7 +45,7 @@ public class AudioController : MonoBehaviour
 
     public void PlaySound(string soundName)
     {
-
+        if(!settings.audioOpen)return;
 
         if (soundName == "moveSound")
         {

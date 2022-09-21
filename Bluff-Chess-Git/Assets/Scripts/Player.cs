@@ -126,11 +126,11 @@ public class Player : MonoBehaviour
                     if(dataHandler.GetLastMoveWasBluff())
                     {
                         //torpil
-                        rand += 0.3f;
+                        rand += 0.1f;
                     }
                     else
                     {
-                        rand -= 0.3f;
+                        rand -= 0.1f;
                     }
 
                     if(rand < 0.5f)
@@ -232,6 +232,9 @@ public class Player : MonoBehaviour
        
         yield return new WaitForSeconds(delay);
 
+        
+
+
         if (dataHandler.GetGameState() == 4 || dataHandler.GetGameState() == 8)
         {
             botDecisionDone = false;
@@ -279,24 +282,11 @@ public class Player : MonoBehaviour
 
                     int unit1 = GetAUnitHasLegalEnemyMove();
                     int unit2 = GetAUnitHasIllegalEnemyMove();
+                    int unit3 = GetAUnitHasLegalMove();
+                    int unit4 = GetAUnitHasIllegalMove();
                     int randUnit = nonPawnAliveUnits[rand];
 
-
-                    
-                    if (gameController.allUnits[randUnit].unitType == "King")
-                    {
-                        if (nonPawnAliveUnits.Count > 1)
-                        {
-                            while(gameController.allUnits[randUnit].unitType != "King")
-                            {
-                                rand = Random.Range(0, nonPawnAliveUnits.Count);
-                                randUnit = nonPawnAliveUnits[rand];
-                            }
-                            
-                        }
-                    }
-
-                    if (unit1 != -1 && randMove < 0.9f)
+                    if (unit1 != -1 && randMove < 0.7f)
                     {
                         Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(unit1)];
                         int rand2 = Random.Range(0, source.GetLegalEnemyBlocks().Count);
@@ -304,31 +294,27 @@ public class Player : MonoBehaviour
                         gameController.ConquerBlock(source, target, false);
                         break;
                     }
-                    else if (randMove < 0.9f)
+
+                    else if (unit3 != -1 && randMove < 0.7f)
                     {
-                        Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(randUnit)];
+                        Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(unit3)];
                         int rand2 = Random.Range(0, source.GetLegalMoves().Count);
-                        if (source.GetLegalMoves().Count > 0)
-                        {
-                            Block target = source.GetLegalMoves()[rand2];
-                            gameController.ConquerBlock(source, target, false);
-                            break;
-                        }
+                        Block target = source.GetLegalMoves()[rand2];
+                        gameController.ConquerBlock(source, target, false);
+                        break;
 
                     }
-
-                    else if (unit2 != -1)
+                    else if(unit2 != -1)
                     {
                         Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(unit2)];
                         int rand2 = Random.Range(0, source.GetIllegalEnemyMoves().Count);
                         Block target = source.GetIllegalEnemyMoves()[rand2];
                         gameController.ConquerBlock(source, target, true);
                         break;
-
                     }
                     else
                     {
-                        Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(randUnit)];
+                        Block source = gameController.allBlocks[dataHandler.GetUnitsBlockIndex(unit4)];
                         int rand2 = Random.Range(0, source.GetIllegalMoves().Count);
                         Block target = source.GetIllegalMoves()[rand2];
                         gameController.ConquerBlock(source, target, true);
@@ -348,6 +334,48 @@ public class Player : MonoBehaviour
         
     }
 
+
+    
+
+    int GetAUnitHasLegalMove()
+    {
+        List<int> all = new List<int>();
+
+        List<int> nonPawnAliveUnits = GetNonPawnAliveUnits();
+
+
+        foreach(int i in nonPawnAliveUnits)
+        {
+            if (gameController.allBlocks[dataHandler.GetUnitsBlockIndex(i)].GetLegalMoves().Count > 0) all.Add(i);
+        }
+
+        if (all.Count < 1) return -1;
+        else
+        {
+            int rand = Random.Range(0, all.Count);
+            return all[rand];
+        }
+    }
+
+    int GetAUnitHasIllegalMove()
+    {
+        List<int> all = new List<int>();
+
+        List<int> nonPawnAliveUnits = GetNonPawnAliveUnits();
+
+
+        foreach (int i in nonPawnAliveUnits)
+        {
+            if (gameController.allBlocks[dataHandler.GetUnitsBlockIndex(i)].GetIllegalMoves().Count > 0) all.Add(i);
+        }
+
+        if (all.Count < 1) return -1;
+        else
+        {
+            int rand = Random.Range(0, all.Count);
+            return all[rand];
+        }
+    }
 
     int GetAUnitHasLegalEnemyMove()
     {
@@ -370,7 +398,6 @@ public class Player : MonoBehaviour
         }
 
     }
-
 
     int GetAUnitHasIllegalEnemyMove()
     {
