@@ -302,7 +302,7 @@ public class Menu : GlobalEventListener
         BoltLauncher.StartServer();
     }
 
-    
+
 
 
     public void CancelButtonOnClick()
@@ -385,6 +385,7 @@ public class Menu : GlobalEventListener
     {
         profileScreen.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
+        openCloseAudioButton.gameObject.SetActive(true);
         nickNameInputField.text = settings.nickName;
         selectedAvatarIndex = settings.avatarIndex;
 
@@ -432,6 +433,7 @@ public class Menu : GlobalEventListener
         profileScreen.gameObject.SetActive(false);
         creditsScreen.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
+        openCloseAudioButton.gameObject.SetActive(false);
         UpdateProfile();
         settings.SaveSettings();
     }
