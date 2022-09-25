@@ -87,7 +87,10 @@ public class Menu : GlobalEventListener
     }
 
 
-    
+    public void TutorialButtonOnClick()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
 
     private IEnumerator CloseTip(Image image)
     {
@@ -238,6 +241,7 @@ public class Menu : GlobalEventListener
                 PhotonRoomProperties token = new PhotonRoomProperties();
                 token.IsOpen = true; // set if the room will be open to be joined
                 token.IsVisible = false; // set if the room will be visible
+                
                 string matchname = CreateRandomID();
 
                 BoltMatchmaking.CreateSession(
@@ -270,6 +274,7 @@ public class Menu : GlobalEventListener
     }
 
 
+
     public override void SessionConnectFailed(UdpSession session, IProtocolToken token, UdpSessionError errorReason)
     { 
         BoltLauncher.Shutdown();
@@ -287,10 +292,17 @@ public class Menu : GlobalEventListener
     public override void ConnectRefused(UdpEndPoint endpoint, IProtocolToken token)
     {
         BoltLauncher.Shutdown();
-
-        BoltMatchmaking.JoinRandomSession();
-
+        BoltLauncher.StartServer();
     }
+
+
+    public override void ConnectFailed(UdpEndPoint endpoint, IProtocolToken token)
+    {
+        BoltLauncher.Shutdown();
+        BoltLauncher.StartServer();
+    }
+
+    
 
 
     public void CancelButtonOnClick()

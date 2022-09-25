@@ -25,6 +25,7 @@ public class GameController : GlobalEventListener
     IEnumerator trueBluffClaimCoroutine;
 
     IEnumerator leaveGameCoroutine;
+    bool leaveGameCoroutineStarted = false;
 
 
     //hardcoded king indices
@@ -45,6 +46,17 @@ public class GameController : GlobalEventListener
     public int roundWinner = -1;
 
     AudioController audioController;
+
+
+    
+
+    bool gameStarted = false;
+    public bool enemyLeft = false;
+
+
+        
+
+
     void Start()
     {
         audioController = FindObjectOfType<AudioController>();
@@ -53,6 +65,23 @@ public class GameController : GlobalEventListener
 
     void Update()
     {
+        if(!gameStarted && FindObjectsOfType<DataHandler>().Length > 1)gameStarted = true;
+        if(gameStarted && FindObjectsOfType<DataHandler>().Length < 2)
+        {
+            
+            if(!leaveGameCoroutineStarted)
+            {
+                
+
+                leaveGameCoroutineStarted = true;
+                FindObjectOfType<BabySitter>().forceClose = true;
+                LeaveGameAfter(30);
+            }
+            FindObjectOfType<BabySitter>().ShowUpTip("Opponent left. You won the game.",false);
+            
+        }
+
+
         if(!dataHandler)
         {
             DataHandler[] dataHandlers = FindObjectsOfType<DataHandler>();
@@ -68,13 +97,6 @@ public class GameController : GlobalEventListener
 
     }
 
-    public override void BoltShutdownBegin(AddCallback registerDoneCallback, UdpConnectionDisconnectReason disconnectReason)
-    {
-        dataHandler.SetGameState(9);
-        FindObjectOfType<GameUI>().gameInfoTMP.text = "Enemy left.\nLeaving Game...";
-        LeaveGameAfter(2);
-    }
-
     public void LeaveGame()
     {
         BoltLauncher.Shutdown();
@@ -84,14 +106,14 @@ public class GameController : GlobalEventListener
 
     private IEnumerator LeaveGameAfterC(float after)
     {
-        BoltLauncher.Shutdown();
         yield return new WaitForSeconds(after);
         LeaveGame();
     }
 
     public void LeaveGameAfter(float seconds)
     {
-        leaveGameCoroutine = LeaveGameAfterC(3f);
+        enemyLeft = true;
+        leaveGameCoroutine = LeaveGameAfterC(seconds);
         StartCoroutine(leaveGameCoroutine);
     }
 
@@ -490,7 +512,11 @@ public class GameController : GlobalEventListener
 
     public void UnitSacrificed(int unitIndex)
     {
-        if(dataHandler.GetGameState() == 8) return;
+        if(dataHandler.GetGameState() == 8 || dataHandler.GetGameState() == 7)
+        {
+            ResetBotDecisionDone();
+            return;
+        } 
 
 
         MakeBlockOfUnitsDefault(dataHandler.GetWhoseTurn());

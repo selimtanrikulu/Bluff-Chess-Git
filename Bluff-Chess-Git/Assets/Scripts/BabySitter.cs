@@ -14,13 +14,17 @@ public class BabySitter : MonoBehaviour
     IEnumerator showUpTipCoroutine;
     IEnumerator inActivateTipCoroutine;
 
-    bool tipActive;
+
+    //public for tutorial
+    public bool tipActive;
+
+    string lastTutorialTip;
 
     Color babySitterTMPStartColor;
     Color babySitterBaloonStartColor;
 
 
-    bool forceClose;
+    public bool forceClose;
     bool forceShowed;
 
     DataHandler dataHandler;
@@ -47,7 +51,6 @@ public class BabySitter : MonoBehaviour
         gameUI = FindObjectOfType<GameUI>();
         gameController = FindObjectOfType<GameController>();
 
-        //ShowUpTip("Set your units");
     }
 
     
@@ -64,10 +67,9 @@ public class BabySitter : MonoBehaviour
 
         if(!dataHandler) return;
 
+
+
         BrowseGame();
-
-
-
     }
 
     bool GameStateChanged()
@@ -85,22 +87,23 @@ public class BabySitter : MonoBehaviour
 
     void BrowseGame()
     {
+        
+
+
+
         if((!GameStateChanged() && !TurnChanged())) return;
+
+
+        
+
 
         forceClose = true; 
 
-        
-        
-
-        if(dataHandler.GetGameState() == 0) ShowUpTip("Wait for your opponent to connect",false);
+        if(dataHandler.GetGameState() == 0) ShowUpTip("Wait for an opponent to connect",false);
 
 
         else if(dataHandler.GetGameState() == 1 && lastGameState == 2 && dataHandler.GetWhoseTurn() != gameUI.myPlayer.playerNo)ShowUpTip("Your opponent passed your move",true);
-
         else if(dataHandler.GetGameState() == 1 && lastGameState == 2 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo)ShowUpTip("You passed your opponent's move",true);
-
-        
-
 
 
         if(dataHandler.GetGameState() == 7 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo) ShowUpTip("Set your pieces",false);
@@ -120,20 +123,20 @@ public class BabySitter : MonoBehaviour
 
 
         else if(dataHandler.GetGameState() == 5 && dataHandler.GetWhoseTurn() != gameUI.myPlayer.playerNo) ShowUpTip("Your opponent claimed bluff !",false);
-        else if(dataHandler.GetGameState() == 5 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo) ShowUpTip("You claimed bluff !",false);
+        else if(dataHandler.GetGameState() == 5 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo) ShowUpTip("You claimed\nbluff !",false);
 
         else if(dataHandler.GetGameState() == 3 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo) ShowUpTip("Your claim was wrong. Sacrifice a piece",false);
         else if(dataHandler.GetGameState() == 3 && dataHandler.GetWhoseTurn() != gameUI.myPlayer.playerNo) ShowUpTip("Wrong claim ! Your opponent will sacrifice a piece !",false);
 
         else if(dataHandler.GetGameState() == 8)
         {
-            if(gameController.roundWinner == gameUI.myPlayer.playerNo)ShowUpTip("You won the round !"  + gameController.roundOverCause,false);
+            if(gameController.roundWinner == gameUI.myPlayer.playerNo)ShowUpTip("You won the round ! "  + gameController.roundOverCause,false);
             else ShowUpTip("You lost the round." + gameController.roundOverCause,false);
         }
 
         else if(dataHandler.GetGameState() == 4)
         {
-            if(gameController.roundWinner == gameUI.myPlayer.playerNo)ShowUpTip("You won the game !",false);
+            if(gameController.roundWinner == gameUI.myPlayer.playerNo)ShowUpTip("You won the\n game ! ",false);
             else ShowUpTip("You lost the game.",false);
         }
 
@@ -141,33 +144,115 @@ public class BabySitter : MonoBehaviour
         else if(dataHandler.GetGameState() == 6 && dataHandler.GetWhoseTurn() == gameUI.myPlayer.playerNo)ShowUpTip("You caught your opponent's bluff !",false);
         else if(dataHandler.GetGameState() == 6 && dataHandler.GetWhoseTurn() != gameUI.myPlayer.playerNo)ShowUpTip("Your opponent caught your bluff",false);
 
+
+        
+
     }
 
-    void ShowUpTip(string tip,bool forceShow)
+
+    //public for tutorial
+    public void ShowUpTipTutorial(string tip)
+    {
+        if(tip == lastTutorialTip)
+        {
+            return;
+        }
+        else
+        {
+            forceClose = true;
+        }
+
+        if(tipActive) return;
+
+        lastTutorialTip = tip;
+        tipActive = true;
+        forceClose = false;
+        showUpTipCoroutine = ShowUpTipTutorialC(tip);
+        StartCoroutine(showUpTipCoroutine);
+    }
+
+    private IEnumerator ShowUpTipTutorialC(string tip)
+    {
+        babySitterTMP.text = tip;
+        babySitterTMP.color = babySitterTMPStartColor;
+        babySitterBaloon.GetComponent<SpriteRenderer>().color = babySitterBaloonStartColor;
+
+        float alpha = 0;
+
+        float duration = 99999999999f;
+
+
+        //Alpha up
+        while(alpha < 1)
+        {
+            alpha += Time.deltaTime * transparencyChangeSpeed;
+            duration -= Time.deltaTime;
+
+            Color color1 = babySitterTMP.color;
+            color1.a = alpha;
+            babySitterTMP.color = color1;
+
+            Color color2 = babySitterBaloon.GetComponent<SpriteRenderer>().color;
+            color2.a = alpha;
+            babySitterBaloon.GetComponent<SpriteRenderer>().color = color2;
+
+            yield return new WaitForSeconds(Time.deltaTime);
+
+
+            if(forceClose)break;
+
+        }
+
+        while(duration > 1/transparencyChangeSpeed)
+        {
+            duration -= Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);  
+
+            if(forceClose)break; 
+        }
+        
+        while(alpha > 0)
+        {
+            alpha -= Time.deltaTime * transparencyChangeSpeed;
+            duration -= Time.deltaTime;
+
+            Color color1 = babySitterTMP.color;
+            color1.a = alpha;
+            babySitterTMP.color = color1;
+
+            Color color2 = babySitterBaloon.GetComponent<SpriteRenderer>().color;
+            color2.a = alpha;
+            babySitterBaloon.GetComponent<SpriteRenderer>().color = color2;
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        tipActive = false;
+    }
+    
+
+
+    
+    public void ShowUpTip(string tip,bool forceShow)
     {
         if(tipActive)return;
         if(forceShow && forceShowed) return;
-
         tipActive = true;
-
         forceShowed = forceShow;
 
         if(!forceShow)
         {
-            lastGameState = dataHandler.GetGameState();
-            lastTurn = dataHandler.GetWhoseTurn();
+            if(dataHandler)
+            {
+                lastGameState = dataHandler.GetGameState();
+                lastTurn = dataHandler.GetWhoseTurn();
+            }
+            
         }
-
-        
-
         forceClose = false;
-
-        
         showUpTipCoroutine = ShowUpTipC(tip,forceShow);
         StartCoroutine(showUpTipCoroutine);
     }
-
-
 
     private IEnumerator ShowUpTipC(string tip,bool forceShow)
     {
@@ -227,7 +312,6 @@ public class BabySitter : MonoBehaviour
         }
 
         tipActive = false;
-
     }
 
 

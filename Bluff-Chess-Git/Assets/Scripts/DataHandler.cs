@@ -29,8 +29,11 @@ public class DataHandler : EntityBehaviour<IDataHandler>
     [SerializeField] GameObject[] unitPrefabs;
 
     public bool isBot = false;
-
     //changed file
+
+
+    [SerializeField] string botNickNamesNonparsed;
+
 
     void Start()
     {
@@ -54,10 +57,18 @@ public class DataHandler : EntityBehaviour<IDataHandler>
         if(!entity.IsOwner)return;
         if (isBot)
         {
-            if(state.blackNickName != "Bot" && state.blackAvatarIndex < 5)
+
+            if(state.blackAvatarIndex < 5)
             {
-                state.blackNickName = "Bot";
-                int botAvatarIndex = Random.Range(9, 15);
+                string[] botNickNames = botNickNamesNonparsed.Split(',');
+
+                int randIndex = Random.Range(0,botNickNames.Length);
+
+                string randNickName = botNickNames[randIndex];
+
+
+                state.blackNickName = randNickName;
+                int botAvatarIndex = Random.Range(9, 14);
                 state.blackAvatarIndex = botAvatarIndex;
 
             }
@@ -66,6 +77,9 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
             return;
         }
+
+
+
 
         //they work once
         SetStartVaribles();
@@ -667,6 +681,8 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
     public void IncrementActionNumber()
     {
+        if(!other)return;
+
 
         if (other.state.actionNumber > state.actionNumber) state.actionNumber = other.state.actionNumber;
         state.actionNumber++;

@@ -150,6 +150,20 @@ public class GameUI : MonoBehaviour
     void Update()
     {
 
+        if(gameController.enemyLeft)
+        {
+            claimKingButton.gameObject.SetActive(false);
+            dontClaimKingButton.gameObject.SetActive(false);
+            claimBluffButton.gameObject.SetActive(false);
+            passButton.gameObject.SetActive(false);
+            randomizeButton.gameObject.SetActive(false);
+            readyButton.gameObject.SetActive(false);
+            leaveButton.gameObject.SetActive(true);
+
+
+
+            return;
+        }
 
         if(!dataHandler)
         {
@@ -160,6 +174,10 @@ public class GameUI : MonoBehaviour
             }
             return;
         }
+
+
+        
+
 
         HandleStartGame();
         HandleClaimDontClaimKingButtons();

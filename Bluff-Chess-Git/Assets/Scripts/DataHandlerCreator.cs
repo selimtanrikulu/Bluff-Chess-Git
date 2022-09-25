@@ -8,38 +8,76 @@ using UdpKit;
 [BoltGlobalBehaviour]
 public class DataHandlerCreator : GlobalEventListener
 {
-    float createBotTime = 10;
+    float createBotTimeMin = 35;
+    float createBotTimeMax = 25;
+
+
+    float createBotTime;
 
     bool gameLockedAfterStart = false;
 
     Settings settings;
+
+    IEnumerator lockGameCoroutine;
+    bool coroutineStarted = false;
+
+
+    bool gameStarted = false;
+
     void Start()
     {
         GameObject dataHandler = BoltNetwork.Instantiate( BoltPrefabs.DataHandler,new Vector2(0,0),transform.rotation);
         settings = FindObjectOfType<Settings>();
+        createBotTime = Random.Range(createBotTimeMin,createBotTimeMax);
     }
 
     void Update()
     {
-        if(FindObjectsOfType<DataHandler>().Length > 1)
+        if(!BoltNetwork.IsServer)return;
+
+
+        if(!gameStarted && FindObjectsOfType<DataHandler>().Length > 1)
         {
-            if(BoltNetwork.IsServer)
-            {
-                if(!gameLockedAfterStart)
-                {
-                    PhotonRoomProperties token = new PhotonRoomProperties();
-                    token.IsOpen = true; // set if the room will be open to be joined
-                    token.IsVisible = false; // set if the room will be visible
-
-                    BoltMatchmaking.UpdateSession(token);
-
-                    gameLockedAfterStart=true;
-                }
-            }
-            
+            gameStarted = true;
+            PhotonRoomProperties token = new PhotonRoomProperties();
+            token.IsOpen = false; // set if the room will be open to be joined
+            token.IsVisible = false; // set if the room will be visible
+            BoltMatchmaking.UpdateSession(token);
+            return;
         }
-        if (FindObjectsOfType<DataHandler>().Length > 1 || settings.privateGame) return;
-        if(createBotTime < 0)
+
+        if(settings.privateGame || gameStarted) return;
+
+        if(createBotTime < 5 && !gameStarted)
+        {
+            if(!coroutineStarted)
+            {
+                coroutineStarted = true;
+                lockGameCoroutine = LockGameC(5);
+                StartCoroutine(lockGameCoroutine);
+            }
+        }
+        else
+        {
+            createBotTime -= Time.deltaTime;
+        }
+    
+    }
+
+
+
+    private IEnumerator LockGameC(float after)
+    {
+        PhotonRoomProperties token = new PhotonRoomProperties();
+        token.IsOpen = false; // set if the room will be open to be joined
+        token.IsVisible = false; // set if the room will be visible
+
+        BoltMatchmaking.UpdateSession(token);
+
+        yield return new WaitForSeconds(after);
+
+
+        if(FindObjectsOfType<DataHandler>().Length <= 1)
         {
             GameObject dataHandler = BoltNetwork.Instantiate(BoltPrefabs.DataHandler, new Vector2(0, 0), transform.rotation);
             DataHandler myDataHandler = dataHandler.GetComponent<DataHandler>();
@@ -50,13 +88,7 @@ public class DataHandlerCreator : GlobalEventListener
             {
                 if (player.playerNo == 2) player.isBot = true;
             }
-
         }
-        else
-        {
-            createBotTime -= Time.deltaTime;
-        }
-        
 
 
     }

@@ -82,6 +82,8 @@ public class GameInfoBlink : MonoBehaviour
     {
         if(coroutineUsing)return;
 
+        //inactivated
+        return;
 
         blinkOneTimeCoroutine = BlinkOneTimeC();
         StartCoroutine(blinkOneTimeCoroutine);

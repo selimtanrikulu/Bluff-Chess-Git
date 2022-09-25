@@ -18,7 +18,15 @@ public class StartScene : MonoBehaviour
     {
         if(startAfter < 0)
         {
-            SceneManager.LoadScene("Menu");
+            if(PlayerPrefs.GetString("nickName").Length < 1)
+            {
+                SceneManager.LoadScene("Tutorial");
+            }
+            else 
+            {
+                SceneManager.LoadScene("Menu");
+            }
+            
         }   
         else
         {

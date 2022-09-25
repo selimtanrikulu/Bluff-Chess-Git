@@ -62,6 +62,8 @@ MonoBehaviour:
   - {fileID: 8888722694916951865, guid: 3f2c9a2a80a25054daf11c459c613a4c, type: 3}
   - {fileID: 5168706451874118603, guid: ac526dd49276e854e8a3238abaa8aafa, type: 3}
   isBot: 0
+  botNickNamesNonparsed: Aaron,airbender14,Azukii,ahmet,brewmaster,BlitzFan,Batu,Ceyda,clint
+    eastwood,COBRA,DroneX,Daviid,deee12,DONY,DOXSA,Elmar818,elmaskaran,Eeriewhisper,Ezekiel,Fireants,FASTER,freakyfrank,F,Gasparov,gagReflex,glitcher33,Hellyea,Honey,hahah,indiana,Irobot,ISO,JakeOfAll,jellybelly,JET,jESSEPinkman,KarenN,ken,kushiciyom,Limbo,Lightsaver,Lorelei,Moonman,Martin,mnms,musti,Nigel,NN,Noobnoob,Osman,oykv,Oo,Paraphon,Plasticine,pOpcOrn,REAL,rizeli53,RecepCan,rrrr,Slytherin,sorryIamPro,Sam,toaster,TedTurner,tileslayer,UwU,Undertaker,uarehigh,Vladimir,Vangogh,villain,Y.O.K,york,Yay!,yuki,zigor,zack,Zimmerman,505
 --- !u!114 &7032015460963804673
 MonoBehaviour:
   m_ObjectHideFlags: 0

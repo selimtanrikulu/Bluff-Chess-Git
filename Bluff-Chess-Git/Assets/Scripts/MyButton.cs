@@ -84,6 +84,25 @@ public class MyButton : MonoBehaviour
 
     void ApplyButtonClick()
     {
+        if(FindObjectOfType<TutorialMaker>())
+        {
+            if(buttonName == "Next")FindObjectOfType<TutorialMaker>().NextButtonOnClick();
+
+            else if(buttonName == "Ready")FindObjectOfType<TutorialMaker>().ReadyButtonOnClick();
+
+            else if(buttonName == "BluffClaim")FindObjectOfType<TutorialMaker>().ReadyButtonOnClick();
+
+
+            else if(buttonName == "KingClaim")FindObjectOfType<TutorialMaker>().ClaimKingButtonOnClick();
+
+            else if(buttonName == "LeaveTutorial")FindObjectOfType<TutorialMaker>().LeaveTutorialButtonOnClick();
+
+
+            else if(buttonName == "Pass")FindObjectOfType<TutorialMaker>().PassButtonOnClick();
+            return;
+        }
+
+
         if(buttonName == "Leave")
         {
             gameUI.LeaveButtonOnClick();
