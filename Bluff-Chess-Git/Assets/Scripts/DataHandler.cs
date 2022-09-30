@@ -68,7 +68,7 @@ public class DataHandler : EntityBehaviour<IDataHandler>
 
 
                 state.blackNickName = randNickName;
-                int botAvatarIndex = Random.Range(9, 14);
+                int botAvatarIndex = Random.Range(9, 16);
                 state.blackAvatarIndex = botAvatarIndex;
 
             }

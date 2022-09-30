@@ -8,8 +8,8 @@ using UdpKit;
 [BoltGlobalBehaviour]
 public class DataHandlerCreator : GlobalEventListener
 {
-    float createBotTimeMin = 35;
-    float createBotTimeMax = 25;
+    float createBotTimeMin = 20;
+    float createBotTimeMax = 30;
 
 
     float createBotTime;

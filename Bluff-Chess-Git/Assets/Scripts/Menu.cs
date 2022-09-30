@@ -21,6 +21,7 @@ public class Menu : GlobalEventListener
     [SerializeField] Button creditsButton;
     [SerializeField] Button backButton;
     [SerializeField] Button discordButton;
+    [SerializeField] string discordURL;
     [SerializeField] Image ruleBookBackground;
     [SerializeField] GameObject[] ruleBookImages;
     int currentRuleBookIndex = 0;
@@ -31,6 +32,7 @@ public class Menu : GlobalEventListener
     [SerializeField] Image avatarImage;
     [SerializeField] Image profileScreen;
     [SerializeField] TMP_InputField nickNameInputField;
+    [SerializeField] Button joinUsButton;
 
     [SerializeField] Image creditsScreen;
 
@@ -174,6 +176,7 @@ public class Menu : GlobalEventListener
         cancelButton.gameObject.SetActive(true);
         createPrivateGameButton.gameObject.SetActive(false);
         joinPrivateGameButton.gameObject.SetActive(false);
+        joinUsButton.gameObject.SetActive(true);
 
         menuInfoText.text = "Finding game ...";
 
@@ -193,6 +196,7 @@ public class Menu : GlobalEventListener
         cancelButton.gameObject.SetActive(true);
         createPrivateGameButton.gameObject.SetActive(false);
         joinPrivateGameButton.gameObject.SetActive(false);
+        joinUsButton.gameObject.SetActive(true);
 
 
         menuInfoText.text = "Creating Game...";
@@ -212,7 +216,7 @@ public class Menu : GlobalEventListener
         inputField.gameObject.SetActive(true);
         joinButton.gameObject.SetActive(true);
         inputFieldBackground.gameObject.SetActive(true);
-
+        
     }
 
     string CreateRandomID()
@@ -316,6 +320,7 @@ public class Menu : GlobalEventListener
         joinButton.gameObject.SetActive(false);
         inputFieldBackground.gameObject.SetActive(false);
         discordButton.gameObject.SetActive(true);
+        joinUsButton.gameObject.SetActive(false);
         menuInfoText.text = "";
         inputField.text = "";
 
@@ -337,6 +342,8 @@ public class Menu : GlobalEventListener
         joinPrivateGameButton.gameObject.SetActive(false);
         inputFieldBackground.gameObject.SetActive(false);
         joinButton.gameObject.SetActive(false);
+
+        joinUsButton.gameObject.SetActive(true);
 
         menuInfoText.text = "Connecting...";
 
@@ -436,6 +443,12 @@ public class Menu : GlobalEventListener
         openCloseAudioButton.gameObject.SetActive(false);
         UpdateProfile();
         settings.SaveSettings();
+    }
+
+
+    public void DiscordButtonOnClick()
+    {
+        Application.OpenURL(discordURL);
     }
 
     public void AvatarButtonOnClick(int index)

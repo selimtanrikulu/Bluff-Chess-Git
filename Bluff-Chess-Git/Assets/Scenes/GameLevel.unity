@@ -272,7 +272,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f60cdd360e505b743b21c8f09706fbfd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3f6691879476373489a603d542c92781, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -6749,6 +6749,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 958acd36e7f2fcc40a1134615fa23323, type: 3}
   - {fileID: 21300000, guid: b8b5564d6d4c5c74ba5f014a05b68500, type: 3}
   - {fileID: 21300000, guid: f60cdd360e505b743b21c8f09706fbfd, type: 3}
+  - {fileID: 21300000, guid: b99ee0253f5359044be879cfd1767189, type: 3}
+  - {fileID: 21300000, guid: 3f6691879476373489a603d542c92781, type: 3}
   myAvatarImage: {fileID: 132386161}
   myAvatarBackground: {fileID: 226992222}
   enemyAvatarImage: {fileID: 51229721}
